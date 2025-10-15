@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Ensures mobile-friendliness -->
+    <title> Favourites </title>
+    <style>
+        /* General styles with soft, cute vibe */
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #F5F5F5; /* Soft light purple-gray background */
+            color: #333;
+            transition: all 0.3s ease;
+        }
+
+        .container {
+            max-height: 80vh;
+            overflow-y: auto;
+            padding: 20px;
+            border-radius: 10px;
+            background-color: #D8BFD8; /* Soft purple container */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1 {
+            text-align: center;
+            color: #ff69b4;
+            font-size: 24px;
+            margin-bottom: 20px;
+            animation: fadeIn 1s ease-in;
+        }
+
+        a {
+            display: block;
+            margin: 10px 0;
+            padding: 15px;
+            background-color: #D8BFD8;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 16px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        a:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .message-div {
+            margin: 20px 0;
+            padding: 15px;
+            background-color: #fff;
+            border: 2px dashed #ff69b4;
+            border-radius: 10px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .cat-design {
+            text-align: center;
+            font-size: 24px;
+            margin: 10px 0;
+            animation: bounce 2s infinite;
+            -webkit-animation: bounce 2s infinite;
+        }
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .cake-animation {
+            text-align: center;
+            font-size: 20px;
+            color: #ff69b4;
+            margin: 20px 0;
+            animation: fadeInBounce 2s ease-in-out;
+            -webkit-animation: fadeInBounce 2s ease-in-out;
+        }
+        @keyframes fadeInBounce {
+            0% { opacity: 0; transform: translateY(20px); }
+            50% { transform: translateY(-10px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .cake {
+            width: 150px;
+            height: 100px;
+            background-color: pink;
+            border-radius: 10px;
+            position: relative;
+            animation: burst 3s ease-in-out forwards;
+            -webkit-animation: burst 3s ease-in-out forwards;
+            margin: 20px auto;
+        }
+
+        .candle {
+            width: 10px;
+            height: 30px;
+            background-color: yellow;
+            position: absolute;
+            top: -30px;
+            left: 70px;
+        }
+
+        .flame {
+            width: 10px;
+            height: 10px;
+            background-color: orange;
+            border-radius: 50%;
+            position: absolute;
+            top: -10px;
+            left: 0;
+            animation: flicker 0.3s infinite;
+            -webkit-animation: flicker 0.3s infinite;
+        }
+
+        @keyframes flicker {
+            0% { opacity: 1; }
+            50% { opacity: 0.6; transform: scale(1.2); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        @keyframes burst {
+            0% { transform: scale(1); opacity: 1; }
+            80% { transform: scale(1.5); opacity: 0.8; }
+            100% { transform: scale(0); opacity: 0; }
+        }
+
+        .new-message {
+            opacity: 0;
+            font-size: 30px;
+            color: #ff69b4;
+            margin-top: 20px;
+            text-align: center;
+            animation: showMessage 1s ease-in forwards;
+            -webkit-animation: showMessage 1s ease-in forwards;
+            animation-delay: 3s;
+            -webkit-animation-delay: 3s;
+        }
+
+        @keyframes showMessage {
+            to { opacity: 1; }
+        }
+
+        #fav-section {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            animation: fadeIn 1s ease-in;
+        }
+
+        .fav-item {
+            background-color: #D8BFD8;
+            border-radius: 10px;
+            padding: 10px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .fav-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .fav-item img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+
+        .fav-item h3 {
+            color: #ff69b4;
+            font-size: 16px;
+        }
+
+        /* Style for the back button */
+        #back-button {
+            margin: 20px auto;
+            padding: 10px 20px;
+            background-color: #D8BFD8; /* Soft purple to match */
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        #back-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>To Angel Nicole Mahometano</h1>
+        
+        <a href="#fav-section">Fav</a>
+        
+        <div class="cat-design">
+            🐱🐱 Happy Birthday Baby 🐱🐱
+        </div>
+        
+        <div class="cake-animation">
+            Happy 18 Bday Angel! 🎂
+        </div>
+        <div class="message-div">
+    <h2>Happy Birthday, My Dearest, Angel</h2>
+    <p>
+        My dearest Angel, <br><br>
+        I know I sometimes forget some of your favorite things, but I want you to know that I’m really trying my best to remember them. Everything about you means so much to me, and I love learning the little things that make you happy.  
+        You’ve made me love your favorites too. The songs you listen to, the food you enjoy, the shows you watch, I’ve slowly come to like them all because they remind me of you.  
+        You’ve made me see things in a new way, and I’m so thankful for that. I’ll keep learning more about you because I want to understand you better every day.  
+        You’re worth every moment and every effort. I love you deeply, and I’ll keep loving you for as long as I live.  
+        <br><br>
+        With all my love, <br>
+        Ian
+    </p>
+</div>
+
+        
+        <div class="cake">
+            <div class="candle">
+                <div class="flame"></div>
+            </div>
+        </div>
+        
+        <div class="new-message">Happy Birthday Angel</div>
+        
+        <div id="fav-section">
+            <div class="fav-item">
+                <img src="minggay.jpeg" alt="Minggay">
+                <h3>Minggay</h3>
+            </div>
+            <div class="fav-item">
+                <img src="seashells.jpg" alt="Seashells/Seastones">
+                <h3>Seashells/Seastones</h3>
+            </div>
+            <div class="fav-item">
+                <img src="carbonara.jpeg" alt="Foods">
+                <h3>Foods</h3>
+            </div>
+            <div class="fav-item">
+                <img src="capybara.jpeg" alt="Capybara">
+                <h3>Capybara</h3>
+            </div>
+            <div class="fav-item">
+                <img src="purple.jpeg" alt="Purple">
+                <h3>Purple</h3>
+            </div>
+            <div class="fav-item">
+                <img src="cloudyseason.jpeg" alt="Cloudy Seasons">
+                <h3>Cloudy Seasons</h3>
+            </div>
+            <div class="fav-item">
+                <img src="clay.jpeg" alt="Clay">
+                <h3>Clay</h3>
+            </div>
+            <div class="fav-item">
+                <img src="antiques.jpeg" alt="Antiques">
+                <h3>Antiques</h3>
+            </div>
+            <div class="fav-item">
+                <img src="bracelets.jpg" alt="Bracelets">
+                <h3>Bracelets</h3>
+            </div>
+            <div class="fav-item">
+                <img src="gem.jpeg" alt="Gems">
+                <h3>Gems</h3>
+            </div>
+            <div class="fav-item">
+                <img src="bananaclip.jpeg" alt="Banana Clips">
+                <h3>Banana Clips</h3>
+            </div>
+            <div class="fav-item">
+                <img src="kinderjoy.jpeg" alt="Kinder Joy">
+                <h3>Kinder Joy</h3>
+            </div>
+             <div class="fav-item">
+                <img src="lillies.jpeg" alt="Flower">
+                <h3>Flower</h3>
+            </div>
+            <a id="back-button" href="Bday.html">Back to Home</a>
+ <!-- Back button added here -->
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('back-button').addEventListener('click', function() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth' // Smooth scrolling for a dynamic feel
+            });
+        });
+    </script>
+</body>
+</html>
